@@ -66,13 +66,13 @@ Getting `C` wrong for the device isn't an error, just slow: on CPU, `C = 32` str
 
 ## Not yet supported
 
-SELL-C-σ row sorting, COO ingestion (construct via `SparseMatrixCSC`), asynchronous batched multi-column `mul!`, cuSPARSE interop (their SELL uses a `-1` sentinel and 0-based offsets), and a parallel transpose-map build.
+SELL-C-σ row sorting, COO ingestion (construct via `SparseMatrixCSC`), asynchronous batched multi-column `mul!`, built-in cuSPARSE interop (a manual handoff is shown on the [cuSPARSE](cusparse.md) page), and a parallel transpose-map build.
 
 ## Other implementations
 
 In Julia, as of November 2026, no other registered package provides an ELL or SELL matrix type. The GPU wrappers expose the vendor formats only as raw library bindings:
 
-  - [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) wraps `cusparseCreateSlicedEll` and `cusparseCreateBlockedEll` in `CUDA.CUSPARSE`, but its matrix types are CSC, CSR, BSR, and COO only.
+  - [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) wraps `cusparseCreateSlicedEll` and `cusparseCreateBlockedEll` in `CUDA.CUSPARSE`, but its matrix types are CSC, CSR, BSR, and COO only. The [cuSPARSE](cusparse.md) page shows how to drive the SELL binding with an EllSparse matrix and benchmarks the two.
   - [AMDGPU.jl](https://github.com/JuliaGPU/AMDGPU.jl) wraps rocSPARSE's ELL and SELL descriptors (`rocsparse_create_ell_descr`, `rocsparse_create_sell_descr`) and `ellmv`, likewise without a matrix type.
   - [jlust](https://github.com/klamike/jlust), an experimental, unregistered sparse-tensor package, describes SELL and Blocked-ELL as level formats targeting cuSPARSE.
 

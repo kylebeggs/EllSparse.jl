@@ -20,7 +20,7 @@ Within slice `s` the entry for (local row `r`, slot `l`) lives at flat storage p
 i.e. slot-major within a slice: for a fixed slot, consecutive rows are adjacent in
 memory. With `C` matched to the device warp/wavefront size (32), a row-parallel kernel
 reads coalesced — this is the cuSPARSE SELL layout (modulo their `-1` padding sentinel
-vs `0` here, and 0- vs 1-based offsets). With `C = 1` the layout degenerates to
+vs `0` here; with a one-based index base cuSPARSE reads these offsets as-is). With `C = 1` the layout degenerates to
 row-contiguous ELL: `q = rowstart + l - 1`, and for a *uniform* width `k` the flat
 storage is bit-identical to a column-major `k × m` matrix whose column `i` holds row
 `i`'s entries — the natural cache-friendly CPU layout for stencil-style matrices.
@@ -51,8 +51,8 @@ storage is bit-identical to a column-major `k × m` matrix whose column `i` hold
   - COO ingestion (construct via `SparseMatrixCSC` for now).
   - Asynchronous batched `mul!` (multi-column applies enqueue all columns, then
     synchronize once).
-  - cuSPARSE interop: their SELL uses sentinel `-1` and 0-based offsets; a future CUDA
-    extension converts at the boundary.
+  - Built-in cuSPARSE interop: their SELL uses sentinel `-1`; a future CUDA extension
+    converts at the boundary (docs/src/cusparse.md shows the manual handoff).
   - Parallel transpose-map build (a chunked counting sort with per-chunk cursors can
     preserve the ascending-position order, but the build is a once-per-structure host
     pass dwarfed by weight computation — not worth risking the order contract).

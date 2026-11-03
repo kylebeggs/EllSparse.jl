@@ -17,6 +17,7 @@ makedocs(;
     ),
     pages = [
         "Home" => "index.md",
+        "cuSPARSE" => "cusparse.md",
         "API" => "api.md",
     ],
     checkdocs = :exports,
