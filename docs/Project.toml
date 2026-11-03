@@ -1,0 +1,7 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DocumenterVitepress = "4710194d-e776-4893-9690-8d956a29c365"
+EllSparse = "7fd3446d-9b51-4acc-9242-0bc8c7556f41"
+
+[sources]
+EllSparse = {path = ".."}
