@@ -6,7 +6,7 @@ CurrentModule = EllSparse
 
 SELL-C (Sliced ELLpack) sparse matrix storage with CPU and GPU [KernelAbstractions](https://github.com/JuliaGPU/KernelAbstractions.jl) kernels for `y = A*x`, `y = A'*x`, and their in-place `mul!` forms.
 
-It is built for matrices whose rows all hold about the same number of entries, such as stencil, mesh, and nearest-neighbor operators. In that regime, CSC pays for indirection it doesn't need. ELL-style storage instead turns each row into a fixed-length dense dot product: the work is embarrassingly parallel over rows, with no per-row bookkeeping. EllSparse was extracted from [RadialBasisFunctions.jl](https://github.com/JuliaMeshless/RadialBasisFunctions.jl), where it stores the stencil weight matrices.
+It is built for matrices whose rows all hold about the same number of entries, such as stencil, mesh, and nearest-neighbor operators. In that regime, CSC pays for indirection it doesn't need. ELL-style storage instead turns each row into a fixed-length dense dot product: the work is embarrassingly parallel over rows, with no per-row bookkeeping.
 
 ## Quick start
 
@@ -67,3 +67,20 @@ Getting `C` wrong for the device isn't an error, just slow: on CPU, `C = 32` str
 ## Not yet supported
 
 SELL-C-σ row sorting, COO ingestion (construct via `SparseMatrixCSC`), asynchronous batched multi-column `mul!`, cuSPARSE interop (their SELL uses a `-1` sentinel and 0-based offsets), and a parallel transpose-map build.
+
+## Other implementations
+
+In Julia, as of November 2026, no other registered package provides an ELL or SELL matrix type. The GPU wrappers expose the vendor formats only as raw library bindings:
+
+  - [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) wraps `cusparseCreateSlicedEll` and `cusparseCreateBlockedEll` in `CUDA.CUSPARSE`, but its matrix types are CSC, CSR, BSR, and COO only.
+  - [AMDGPU.jl](https://github.com/JuliaGPU/AMDGPU.jl) wraps rocSPARSE's ELL and SELL descriptors (`rocsparse_create_ell_descr`, `rocsparse_create_sell_descr`) and `ellmv`, likewise without a matrix type.
+  - [jlust](https://github.com/klamike/jlust), an experimental, unregistered sparse-tensor package, describes SELL and Blocked-ELL as level formats targeting cuSPARSE.
+
+Outside Julia:
+
+  - [NVIDIA cuSPARSE](https://docs.nvidia.com/cuda/cusparse/index.html#sliced-ellpack-sell): Sliced ELLPACK (SELL) for SpMV and [Blocked-ELL](https://docs.nvidia.com/cuda/cusparse/index.html#blocked-ellpack-blocked-ell) for SpMM.
+  - [AMD rocSPARSE](https://rocm.docs.amd.com/projects/rocSPARSE/en/latest/conceptual/storage-formats-sparse.html): ELL, Blocked-ELL, and SELL.
+  - [Ginkgo](https://github.com/ginkgo-project/ginkgo) (C++; CPU, CUDA, HIP, SYCL): [`Ell`](https://ginkgo-project.github.io/ginkgo-generated-documentation/doc/develop/classgko_1_1matrix_1_1Ell.html) and [`Sellp`](https://ginkgo-project.github.io/ginkgo-generated-documentation/doc/develop/classgko_1_1matrix_1_1Sellp.html).
+  - [PETSc](https://petsc.org/release/manualpages/Mat/MATSELL/): `MATSELL`, a SIMD-vectorized sliced ELL for CPUs.
+  - [MAGMA](https://icl.utk.edu/magma/): SELL-P, sliced ELL with rows padded so several GPU threads can share one row.
+  - [Kreutzer et al. (2014)](https://arxiv.org/abs/1307.6209) introduced SELL-C-σ, the sorted generalization of the layout used here.
