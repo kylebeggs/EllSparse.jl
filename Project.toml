@@ -1,14 +1,31 @@
 name = "EllSparse"
 uuid = "7fd3446d-9b51-4acc-9242-0bc8c7556f41"
-authors = ["Kyle Beggs (beggskw@gmail.com) and contributors"]
 version = "0.0.1"
+authors = ["Kyle Beggs (beggskw@gmail.com) and contributors"]
+
+[deps]
+Adapt = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
+KernelAbstractions = "63c18a36-062a-441e-b654-da1e3ab1ce7c"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
+Adapt = "4"
+JLArrays = "0.2, 0.3"
+KernelAbstractions = "0.9.34, 0.10"
+LinearAlgebra = "1"
+Random = "1"
+SafeTestsets = "0.1"
+SparseArrays = "1"
+Test = "1"
 julia = "1.10"
 
 [extras]
 JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
+JLArrays = "27aeb0d3-9eb9-45fb-866b-73c2ecf80fcb"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["JET", "Test"]
+test = ["JET", "JLArrays", "Random", "SafeTestsets", "Test"]
