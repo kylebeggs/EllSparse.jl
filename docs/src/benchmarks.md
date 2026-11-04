@@ -86,7 +86,7 @@ Out of cache, every threaded row-oriented format lands at 52–66 GB/s. EllSpars
 The other two regimes are where the formats separate:
 
   - **In cache**, MKL leads EllSparse by 1.3–2× on every family. EllSparse beats the pure-Julia packages by 1.1–1.35× on the Laplacians: 233 vs 173 GB/s at 1.6M nonzeros on the 2D Laplacian. On the 27-point, kNN, and ragged families it trails them by up to 40%.
-  - **Below 4096 rows**, EllSparse loses by up to 4.4× (35 vs 155 GB/s on kNN at 10³ rows). EllSparse switches to a serial loop there, to avoid the tens-of-μs cost of spawning `@threads` tasks. SparseMatricesCSR stays threaded with Polyester, whose spawn cost is far lower. EllSparse's cutoff is set too conservatively for this machine.
+  - **Below 4096 rows**, EllSparse loses by up to 6.1× (34.2 vs 5.6 μs on kNN at 3,162 rows). EllSparse switches to a serial loop there, to avoid the tens-of-μs cost of spawning `@threads` tasks. SparseMatricesCSR stays threaded with Polyester, whose spawn cost is far lower. EllSparse's cutoff is set too conservatively for this machine ([#7](https://github.com/kylebeggs/EllSparse.jl/issues/7)).
 
 ### Adjoint product
 
@@ -148,7 +148,7 @@ CompressedSparseBlocks is the one format that does better than EllSparse at larg
 
 The tables show 32 columns. The block product is EllSparse's weakest result. Its CPU `mul!(Y, A, X)` applies one column at a time, so it streams the whole matrix from memory once per column. The fast formats read the matrix fewer times. The CSR loop and MKL apply each row to every column while that row is still in cache, and GenericSparseArrays CSR runs one work item per (row, column) pair.
 
-Against the best of these, EllSparse is 2.3–4.6× slower at both 8 and 32 columns. Below 4096 rows the gap reaches 14× against MKL, because EllSparse's serial cutoff applies to each column. A row-blocked multi-column kernel would close most of this gap. That kernel is the batched multi-column `mul!` listed under "Not yet supported".
+Against the best of these, EllSparse is 2.3–4.6× slower at both 8 and 32 columns. Below 4096 rows the gap reaches 14× against MKL, because EllSparse's serial cutoff applies to each column. A row-blocked multi-column kernel would close most of this gap. That kernel is the batched multi-column `mul!` listed under "Not yet supported" ([#8](https://github.com/kylebeggs/EllSparse.jl/issues/8)).
 
 ## GPU
 
@@ -224,7 +224,7 @@ At 32 columns, CUDA.jl CSC and COO lead on the Laplacians, with EllSparse 16–1
 ## Summary
 
   - **Forward product:** EllSparse matches the best options on the CPU at scale and leads on the GPU. Out of cache on the CPU, it ties the threaded row formats and MKL. On the GPU it is 15–19% ahead on short rows, ahead of every format inside L2, and tied otherwise. The exception is ragged rows on the GPU, where SELL-32 padding makes it 1.6× slower than CSR.
-  - **Small CPU matrices:** this loss is fixable. Below 4096 rows, EllSparse's serial cutoff makes it up to 4.4× slower than SparseMatricesCSR.
+  - **Small CPU matrices:** this loss is fixable. Below 4096 rows, EllSparse's serial cutoff makes it up to 6.1× slower than SparseMatricesCSR ([#7](https://github.com/kylebeggs/EllSparse.jl/issues/7)).
   - **Adjoint:** EllSparse is fast in cache but slower than plain CSC gathers out of cache, by 1.2–2.7× on the CPU and 1.1–3.8× on the GPU, because of the transpose map's extra indirect read. Its real advantage is fast forward products and repeatable adjoints from one structure, not adjoint speed alone. CompressedSparseBlocks does both directions faster on the CPU, within its platform limits.
   - **Repeatability:** it matters on the GPU, not on the CPU. Every CPU adjoint here but one was repeatable. On the GPU, only the gather-based formats were: EllSparse, CUDA.jl CSC, and GenericSparseArrays CSC.
   - **Block products:** these are the clearest gap. Because EllSparse applies one column at a time, it is 2.3–4.6× slower than the best CPU option, and 1.5–4.9× slower than GenericSparseArrays CSR on the GPU at 8 columns.
