@@ -1,0 +1,169 @@
+backend,device,threads,family,label,m,nnz,pad32,op,format,group,nrhs,time_s,useful_bytes,deterministic
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1024,4992,0.012658227848101222,spmv,MKLSparse,libs,1,1.996666666666667e-6,76288,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1024,4992,0.012658227848101222,spmv_adj,MKLSparse,libs,1,2.823e-5,76288,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1024,4992,0.012658227848101222,spmm,MKLSparse,libs,8,3.4525e-6,190976,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1024,4992,0.012658227848101222,spmm,MKLSparse,libs,32,1.381e-5,584192,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3136,15456,0.010245901639344246,spmv,MKLSparse,libs,1,2.3944444444444443e-6,235648,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3136,15456,0.010245901639344246,spmv_adj,MKLSparse,libs,1,3.139e-5,235648,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3136,15456,0.010245901639344246,spmm,MKLSparse,libs,8,7.325e-6,586880,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3136,15456,0.010245901639344246,spmm,MKLSparse,libs,32,3.8881e-5,1791104,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",10000,49600,0.0057729313662604476,spmv,MKLSparse,libs,1,4.045e-6,755200,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",10000,49600,0.0057729313662604476,spmv_adj,MKLSparse,libs,1,4.922e-5,755200,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",10000,49600,0.0057729313662604476,spmm,MKLSparse,libs,8,1.94e-5,1875200,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",10000,49600,0.0057729313662604476,spmm,MKLSparse,libs,32,0.00011613,5715200,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",31684,157708,0.0031603964401294427,spmv,MKLSparse,libs,1,8.96e-6,2399440,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",31684,157708,0.0031603964401294427,spmv_adj,MKLSparse,libs,1,9.9121e-5,2399440,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",31684,157708,0.0031603964401294427,spmm,MKLSparse,libs,8,5.818e-5,5948048,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",31684,157708,0.0031603964401294427,spmm,MKLSparse,libs,32,0.000370241,18114704,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",99856,498016,0.0014756833055306062,spmv,MKLSparse,libs,1,2.432e-5,7573888,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",99856,498016,0.0014756833055306062,spmv_adj,MKLSparse,libs,1,0.000230021,7573888,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",99856,498016,0.0014756833055306062,spmm,MKLSparse,libs,8,0.000346761,18757760,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",99856,498016,0.0014756833055306062,spmm,MKLSparse,libs,32,0.001197393,57102464,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",315844,1576972,0.0008034266017842295,spmv,MKLSparse,libs,1,8.19e-5,23977168,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",315844,1576972,0.0008034266017842295,spmv_adj,MKLSparse,libs,1,0.000610252,23977168,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",315844,1576972,0.0008034266017842295,spmm,MKLSparse,libs,8,0.001245314,59351696,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",315844,1576972,0.0008034266017842295,spmm,MKLSparse,libs,32,0.004709642,180635792,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1000000,4996000,0.0004033600532691306,spmv,MKLSparse,libs,1,0.000348761,75952000,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1000000,4996000,0.0004033600532691306,spmv_adj,MKLSparse,libs,1,0.006539677,75952000,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1000000,4996000,0.0004033600532691306,spmm,MKLSparse,libs,8,0.00723647,187952000,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",1000000,4996000,0.0004033600532691306,spmm,MKLSparse,libs,32,0.014291078,571952000,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3161284,15799308,0.0002341326410769673,spmv,MKLSparse,libs,1,0.003528969,240172240,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3161284,15799308,0.0002341326410769673,spmv_adj,MKLSparse,libs,1,0.024324725,240172240,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3161284,15799308,0.0002341326410769673,spmm,MKLSparse,libs,8,0.024170584,594236048,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",3161284,15799308,0.0002341326410769673,spmm,MKLSparse,libs,32,0.051558517,1808169104,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",9998244,49978572,0.0001297187703460656,spmv,MKLSparse,libs,1,0.013520836,759714768,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",9998244,49978572,0.0001297187703460656,spmv_adj,MKLSparse,libs,1,0.07498522,759714768,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",9998244,49978572,0.0001297187703460656,spmm,MKLSparse,libs,8,0.078462389,1879518096,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap2d,"2D Laplacian, 5-pt",9998244,49978572,0.0001297187703460656,spmm,MKLSparse,libs,32,0.164045107,5718843792,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000,6400,0.07407407407407407,spmv,MKLSparse,libs,1,1.9033333333333333e-6,92800,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000,6400,0.07407407407407407,spmv_adj,MKLSparse,libs,1,2.97e-5,92800,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000,6400,0.07407407407407407,spmm,MKLSparse,libs,8,3.79375e-6,204800,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000,6400,0.07407407407407407,spmm,MKLSparse,libs,32,1.513e-5,588800,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3375,22275,0.04119318181818177,spmv,MKLSparse,libs,1,2.5344444444444442e-6,321300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3375,22275,0.04119318181818177,spmv_adj,MKLSparse,libs,1,3.452e-5,321300,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3375,22275,0.04119318181818177,spmm,MKLSparse,libs,8,8.72e-6,699300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3375,22275,0.04119318181818177,spmm,MKLSparse,libs,32,4.712e-5,1995300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",10648,71632,0.02334205933682376,spmv,MKLSparse,libs,1,4.594285714285715e-6,1029952,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",10648,71632,0.02334205933682376,spmv_adj,MKLSparse,libs,1,4.854e-5,1029952,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",10648,71632,0.02334205933682376,spmm,MKLSparse,libs,8,2.808e-5,2222528,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",10648,71632,0.02334205933682376,spmm,MKLSparse,libs,32,0.00014925,6311360,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",32768,223232,0.009090909090909038,spmv,MKLSparse,libs,1,1.052e-5,3203072,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",32768,223232,0.009090909090909038,spmv_adj,MKLSparse,libs,1,0.000104411,3203072,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",32768,223232,0.009090909090909038,spmm,MKLSparse,libs,8,8.2281e-5,6873088,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",32768,223232,0.009090909090909038,spmm,MKLSparse,libs,32,0.000470671,19456000,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",97336,668656,0.008564243689504702,spmv,MKLSparse,libs,1,2.864e-5,9581248,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",97336,668656,0.008564243689504702,spmv_adj,MKLSparse,libs,1,0.000230781,9581248,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",97336,668656,0.008564243689504702,spmm,MKLSparse,libs,8,0.000373391,20482880,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",97336,668656,0.008564243689504702,spmm,MKLSparse,libs,32,0.001387434,57859904,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",314432,2173280,0.004995897796530757,spmv,MKLSparse,libs,1,0.00010002,31110272,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",314432,2173280,0.004995897796530757,spmv_adj,MKLSparse,libs,1,0.000679692,31110272,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",314432,2173280,0.004995897796530757,spmm,MKLSparse,libs,8,0.001687505,66326656,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",314432,2173280,0.004995897796530757,spmm,MKLSparse,libs,32,0.006811578,187068544,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000000,6940000,0.003221862705445444,spmv,MKLSparse,libs,1,0.000738412,99280000,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000000,6940000,0.003221862705445444,spmv_adj,MKLSparse,libs,1,0.006724528,99280000,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000000,6940000,0.003221862705445444,spmm,MKLSparse,libs,8,0.008200162,211280000,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",1000000,6940000,0.003221862705445444,spmm,MKLSparse,libs,32,0.017438267,595280000,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3176523,22106007,0.0021497603643502172,spmv,MKLSparse,libs,1,0.004944754,316096452,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3176523,22106007,0.0021497603643502172,spmv_adj,MKLSparse,libs,1,0.023622003,316096452,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3176523,22106007,0.0021497603643502172,spmm,MKLSparse,libs,8,0.028014764,671867028,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",3176523,22106007,0.0021497603643502172,spmm,MKLSparse,libs,32,0.05996343,1891651860,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",9938375,69291275,0.001424367206670607,spmv,MKLSparse,libs,1,0.01849795,990509300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",9938375,69291275,0.001424367206670607,spmv_adj,MKLSparse,libs,1,0.084408914,990509300,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",9938375,69291275,0.001424367206670607,spmm,MKLSparse,libs,8,0.090702111,2103607300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,lap3d,"3D Laplacian, 7-pt",9938375,69291275,0.001424367206670607,spmm,MKLSparse,libs,32,0.265712147,5919943300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000,21952,0.13710691823899368,spmv,MKLSparse,libs,1,2.3344444444444444e-6,279424,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000,21952,0.13710691823899368,spmv_adj,MKLSparse,libs,1,2.838e-5,279424,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000,21952,0.13710691823899368,spmm,MKLSparse,libs,8,6.744e-6,391424,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000,21952,0.13710691823899368,spmm,MKLSparse,libs,32,2.708e-5,775424,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3375,79507,0.08688212054391764,spmv,MKLSparse,libs,1,4.355714285714286e-6,1008084,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3375,79507,0.08688212054391764,spmv_adj,MKLSparse,libs,1,3.679e-5,1008084,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3375,79507,0.08688212054391764,spmm,MKLSparse,libs,8,2.026e-5,1386084,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3375,79507,0.08688212054391764,spmm,MKLSparse,libs,32,9.432e-5,2682084,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,10648,262144,0.051851851851851816,spmv,MKLSparse,libs,1,9.69e-6,3316096,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,10648,262144,0.051851851851851816,spmv_adj,MKLSparse,libs,1,5.989e-5,3316096,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,10648,262144,0.051851851851851816,spmm,MKLSparse,libs,8,6.386e-5,4508672,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,10648,262144,0.051851851851851816,spmm,MKLSparse,libs,32,0.000305811,8597504,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,32768,830584,0.02083333333333337,spmv,MKLSparse,libs,1,2.351e-5,10491296,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,32768,830584,0.02083333333333337,spmv_adj,MKLSparse,libs,1,0.000126551,10491296,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,32768,830584,0.02083333333333337,spmm,MKLSparse,libs,8,0.000276661,14161312,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,32768,830584,0.02083333333333337,spmm,MKLSparse,libs,32,0.001328654,26744224,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,97336,2515456,0.019654793973860163,spmv,MKLSparse,libs,1,6.796e-5,31742848,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,97336,2515456,0.019654793973860163,spmv_adj,MKLSparse,libs,1,0.000306151,31742848,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,97336,2515456,0.019654793973860163,spmm,MKLSparse,libs,8,0.000860592,42644480,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,97336,2515456,0.019654793973860163,spmm,MKLSparse,libs,32,0.00395829,80021504,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,314432,8242408,0.01155376727836488,spmv,MKLSparse,libs,1,0.000737422,103939808,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,314432,8242408,0.01155376727836488,spmv_adj,MKLSparse,libs,1,0.001609575,103939808,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,314432,8242408,0.01155376727836488,spmm,MKLSparse,libs,8,0.004437502,139156192,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,314432,8242408,0.01155376727836488,spmm,MKLSparse,libs,32,0.012113812,259898080,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000000,26463592,0.007473170157966669,spmv,MKLSparse,libs,1,0.004539352,333563104,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000000,26463592,0.007473170157966669,spmv_adj,MKLSparse,libs,1,0.011876851,333563104,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000000,26463592,0.007473170157966669,spmm,MKLSparse,libs,8,0.01502377,445563104,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,1000000,26463592,0.007473170157966669,spmm,MKLSparse,libs,32,0.058233535,829563104,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3176523,84604519,0.0049879781682972135,spmv,MKLSparse,libs,1,0.016751555,1066078596,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3176523,84604519,0.0049879781682972135,spmv_adj,MKLSparse,libs,1,0.037742761,1066078596,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3176523,84604519,0.0049879781682972135,spmm,MKLSparse,libs,8,0.049437332,1421849172,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,st27,3D 27-pt stencil,3176523,84604519,0.0049879781682972135,spmm,MKLSparse,libs,32,0.213128147,2641634004,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000,28528,0.09584178498985796,spmv,MKLSparse,libs,1,2.3233333333333337e-6,358336,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000,28528,0.09584178498985796,spmv_adj,MKLSparse,libs,1,3.046e-5,358336,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000,28528,0.09584178498985796,spmm,MKLSparse,libs,8,8.173333333333334e-6,470336,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000,28528,0.09584178498985796,spmm,MKLSparse,libs,32,3.336e-5,854336,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162,93667,0.0666155133928571,spmv,MKLSparse,libs,1,4.68e-6,1174596,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162,93667,0.0666155133928571,spmv_adj,MKLSparse,libs,1,3.6041e-5,1174596,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162,93667,0.0666155133928571,spmm,MKLSparse,libs,8,2.332e-5,1528740,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162,93667,0.0666155133928571,spmm,MKLSparse,libs,32,0.0001211,2742948,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",10000,300022,0.06055235470941889,spmv,MKLSparse,libs,1,8.063333333333333e-6,3760264,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",10000,300022,0.06055235470941889,spmv_adj,MKLSparse,libs,1,5.7391e-5,3760264,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",10000,300022,0.06055235470941889,spmm,MKLSparse,libs,8,7.328e-5,4880264,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",10000,300022,0.06055235470941889,spmm,MKLSparse,libs,32,0.000355061,8720264,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",31623,951644,0.05883679346794102,spmv,MKLSparse,libs,1,3.145e-5,11925696,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",31623,951644,0.05883679346794102,spmv_adj,MKLSparse,libs,1,0.00012287,11925696,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",31623,951644,0.05883679346794102,spmm,MKLSparse,libs,8,0.000344381,15467472,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",31623,951644,0.05883679346794102,spmm,MKLSparse,libs,32,0.001330504,27610704,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",100000,3012573,0.057996315252303865,spmv,MKLSparse,libs,1,0.00010301,37750876,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",100000,3012573,0.057996315252303865,spmv_adj,MKLSparse,libs,1,0.000331601,37750876,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",100000,3012573,0.057996315252303865,spmm,MKLSparse,libs,8,0.001177314,48950876,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",100000,3012573,0.057996315252303865,spmm,MKLSparse,libs,32,0.003666369,87350876,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",316228,9531518,0.057733265319034555,spmv,MKLSparse,libs,1,0.001006733,119437864,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",316228,9531518,0.057733265319034555,spmv_adj,MKLSparse,libs,1,0.001853915,119437864,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",316228,9531518,0.057733265319034555,spmm,MKLSparse,libs,8,0.004992573,154855400,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",316228,9531518,0.057733265319034555,spmm,MKLSparse,libs,32,0.01475803,276286952,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000000,30140875,0.05776504731170107,spmv,MKLSparse,libs,1,0.005208654,377690500,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000000,30140875,0.05776504731170107,spmv_adj,MKLSparse,libs,1,0.010760588,377690500,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000000,30140875,0.05776504731170107,spmm,MKLSparse,libs,8,0.016786835,489690500,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",1000000,30140875,0.05776504731170107,spmm,MKLSparse,libs,32,0.056805491,873690500,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162278,95319227,0.05773320046855124,spmv,MKLSparse,libs,1,0.018165998,1194427172,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162278,95319227,0.05773320046855124,spmv_adj,MKLSparse,libs,1,0.03743274,1194427172,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162278,95319227,0.05773320046855124,spmm,MKLSparse,libs,8,0.051765037,1548602308,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,knn,"kNN stencil, k = 32",3162278,95319227,0.05773320046855124,spmm,MKLSparse,libs,32,0.160907038,2762917060,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000,28160,0.4886693782684486,spmv,MKLSparse,libs,1,2.3633333333333333e-6,353920,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000,28160,0.4886693782684486,spmv_adj,MKLSparse,libs,1,2.947e-5,353920,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000,28160,0.4886693782684486,spmm,MKLSparse,libs,8,7.85e-6,465920,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000,28160,0.4886693782684486,spmm,MKLSparse,libs,32,3.722e-5,849920,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162,93375,0.47262448039038496,spmv,MKLSparse,libs,1,4.4928571428571435e-6,1171092,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162,93375,0.47262448039038496,spmv_adj,MKLSparse,libs,1,3.856e-5,1171092,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162,93375,0.47262448039038496,spmm,MKLSparse,libs,8,2.2141e-5,1525236,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162,93375,0.47262448039038496,spmm,MKLSparse,libs,32,0.00010674,2739444,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",10000,301272,0.4672504526935265,spmv,MKLSparse,libs,1,1.091e-5,3775264,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",10000,301272,0.4672504526935265,spmv_adj,MKLSparse,libs,1,5.884e-5,3775264,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",10000,301272,0.4672504526935265,spmm,MKLSparse,libs,8,7.188e-5,4895264,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",10000,301272,0.4672504526935265,spmm,MKLSparse,libs,32,0.000327311,8735264,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",31623,950536,0.4698888175036585,spmv,MKLSparse,libs,1,3.162e-5,11912400,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",31623,950536,0.4698888175036585,spmv_adj,MKLSparse,libs,1,0.00012867,11912400,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",31623,950536,0.4698888175036585,spmm,MKLSparse,libs,8,0.000490551,15454176,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",31623,950536,0.4698888175036585,spmm,MKLSparse,libs,32,0.001385444,27597408,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",100000,3000258,0.46963422050005654,spmv,MKLSparse,libs,1,0.00012586,37603096,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",100000,3000258,0.46963422050005654,spmv_adj,MKLSparse,libs,1,0.000395951,37603096,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",100000,3000258,0.46963422050005654,spmm,MKLSparse,libs,8,0.001573095,48803096,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",100000,3000258,0.46963422050005654,spmm,MKLSparse,libs,32,0.004613652,87203096,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",316228,9510733,0.4688573931139737,spmv,MKLSparse,libs,1,0.000964793,119188444,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",316228,9510733,0.4688573931139737,spmv_adj,MKLSparse,libs,1,0.001856575,119188444,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",316228,9510733,0.4688573931139737,spmm,MKLSparse,libs,8,0.005311744,154605980,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",316228,9510733,0.4688573931139737,spmm,MKLSparse,libs,32,0.017316396,276037532,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000000,30027275,0.4694332792882445,spmv,MKLSparse,libs,1,0.005200503,376327300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000000,30027275,0.4694332792882445,spmv_adj,MKLSparse,libs,1,0.011995212,376327300,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000000,30027275,0.4694332792882445,spmm,MKLSparse,libs,8,0.017675067,488327300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",1000000,30027275,0.4694332792882445,spmm,MKLSparse,libs,32,0.055258147,872327300,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162278,94868196,0.4699149353466079,spmv,MKLSparse,libs,1,0.017985088,1189014800,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162278,94868196,0.4699149353466079,spmv_adj,MKLSparse,libs,1,0.038288812,1189014800,true
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162278,94868196,0.4699149353466079,spmm,MKLSparse,libs,8,0.057246052,1543189936,
+cpu,AMD Ryzen 9 9900X 12-Core Processor,12,ragged,"ragged rows, 1–64",3162278,94868196,0.4699149353466079,spmm,MKLSparse,libs,32,0.177496783,2757504688,
