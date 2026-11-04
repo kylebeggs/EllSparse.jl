@@ -54,7 +54,7 @@ function repeatable(f, out; reps = 20)
 end
 
 row(; kwargs...) = (; backend = "", device = "", threads = 0, family = "", label = "",
-    m = 0, nnz = 0, pad32 = 0.0, op = "", format = "", nrhs = 1, time_s = NaN,
+    m = 0, nnz = 0, pad32 = 0.0, op = "", format = "", group = "", nrhs = 1, time_s = NaN,
     useful_bytes = 0, deterministic = missing, kwargs...)
 
 # Appends rows to `results/<name>.csv`, writing the header on first use in this run.
@@ -69,7 +69,7 @@ end
 function report(r)
     gbs = r.useful_bytes / r.time_s / 1.0e9
     det = ismissing(r.deterministic) ? "" : (r.deterministic ? "  repeatable" : "  NOT repeatable")
-    return println("  ", rpad(r.op * (r.nrhs > 1 ? "×$(r.nrhs)" : ""), 10), rpad(r.format, 22),
+    return println("  ", rpad(r.op * (r.nrhs > 1 ? "×$(r.nrhs)" : ""), 10), rpad(r.format, 26),
         lpad(round(r.time_s * 1.0e6; digits = 1), 11), " μs  ", lpad(round(gbs; digits = 1), 7), " GB/s", det)
 end
 

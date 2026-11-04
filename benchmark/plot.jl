@@ -13,21 +13,30 @@ using Printf
 const RESULTS = joinpath(@__DIR__, "results")
 const ASSETS = joinpath(@__DIR__, "..", "docs", "src", "assets")
 
-# Fixed color + marker per format (validated categorical slots, light surface). The
-# marker is the secondary encoding, so identity never rests on color alone.
-const STYLE = Dict(
-    "SELL-1" => ("#2a78d6", :circle),
-    "SELL-32" => ("#eb6834", :rect),
-    "CSC (stdlib)" => ("#1baf7a", :diamond),
-    "CSR (threaded)" => ("#eda100", :utriangle),
-    "MKL CSR" => ("#e87ba4", :dtriangle),
-    "dense BLAS" => ("#008300", :xcross),
-    "EllSparse SELL-32" => ("#2a78d6", :circle),
-    "cuSPARSE SELL" => ("#eb6834", :rect),
-    "cuSPARSE CSR" => ("#1baf7a", :diamond),
+# Figure panels. Colors are validated categorical slots assigned in fixed order within a
+# panel; EllSparse and the stdlib baseline keep the same color in every CPU panel. Each
+# format also has its own marker everywhere, the secondary encoding, so identity never
+# rests on color alone.
+const SLOTS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6"]
+const PANELS = [
+    (backend = "cpu", key = "julia", subtitle = "pure-Julia packages",
+        formats = ["EllSparse", "SparseArrays CSC", "SparseMatricesCSR", "ThreadedSparseArrays",
+            "GenericSparseArrays CSR", "GenericSparseArrays CSC"]),
+    (backend = "cpu", key = "libs", subtitle = "wrapped C libraries and references",
+        formats = ["EllSparse", "SparseArrays CSC", "MKLSparse", "SuiteSparseGraphBLAS",
+            "CompressedSparseBlocks", "CSR loop (reference)", "dense BLAS"]),
+    (backend = "gpu", key = "", subtitle = "",
+        formats = ["EllSparse", "CUDA.jl CSR", "CUDA.jl CSC", "CUDA.jl COO",
+            "GenericSparseArrays CSR", "GenericSparseArrays CSC"]),
+]
+const MARKER = Dict(
+    "EllSparse" => :circle, "SparseArrays CSC" => :rect, "SparseMatricesCSR" => :diamond,
+    "ThreadedSparseArrays" => :utriangle, "GenericSparseArrays CSR" => :dtriangle,
+    "GenericSparseArrays CSC" => :ltriangle, "MKLSparse" => :star5, "SuiteSparseGraphBLAS" => :hexagon,
+    "CompressedSparseBlocks" => :pentagon, "CSR loop (reference)" => :cross, "dense BLAS" => :xcross,
+    "CUDA.jl CSR" => :rect, "CUDA.jl CSC" => :diamond, "CUDA.jl COO" => :utriangle,
 )
-const ORDER = ["SELL-1", "SELL-32", "CSC (stdlib)", "CSR (threaded)", "MKL CSR", "dense BLAS",
-    "EllSparse SELL-32", "cuSPARSE SELL", "cuSPARSE CSR"]
+style(panel, f) = (SLOTS[findfirst(==(f), panel.formats)], MARKER[f])
 const FAMILY_ORDER = ["lap2d", "lap3d", "st27", "knn", "ragged"]
 
 const OPS = [
@@ -48,13 +57,15 @@ function load(backend)
     return (df, meta)
 end
 
-function figure(df, meta, op, backend)
-    sub = df[op.pick(df), :]
+function figure(df, meta, op, panel)
+    backend = panel.backend
+    sub = df[op.pick(df) .& in.(df.format, Ref(Set(panel.formats))), :]
     fams = filter(in(Set(sub.family)), FAMILY_ORDER)
-    fmts = filter(in(Set(sub.format)), ORDER)
+    fmts = filter(in(Set(sub.format)), panel.formats)
     fig = Figure(; size = (1100, 640), backgroundcolor = SURFACE, fontsize = 13,
         figure_padding = 12)
-    Label(fig[0, 1:3], "$(op.title) — $(meta.device)"; color = INK, fontsize = 16,
+    title = isempty(panel.subtitle) ? op.title : "$(op.title), $(panel.subtitle)"
+    Label(fig[0, 1:3], "$title — $(meta.device)"; color = INK, fontsize = 16,
         font = :bold, halign = :left)
     axes = map(enumerate(fams)) do (i, fam)
         fsub = sub[sub.family .== fam, :]
@@ -70,7 +81,7 @@ function figure(df, meta, op, backend)
         foreach(fmts) do fmt
             d = sort(fsub[fsub.format .== fmt, :], :nnz)
             isempty(d) && return
-            (color, marker) = STYLE[fmt]
+            (color, marker) = style(panel, fmt)
             scatterlines!(ax, d.nnz, d.gbs; color, marker, markersize = 8, linewidth = 2,
                 strokecolor = SURFACE, strokewidth = 1)
         end
@@ -78,8 +89,10 @@ function figure(df, meta, op, backend)
         ax
     end
     linkyaxes!(axes...)
-    elems = map(f -> [LineElement(; color = STYLE[f][1], linewidth = 2),
-        MarkerElement(; color = STYLE[f][1], marker = STYLE[f][2], markersize = 8)], fmts)
+    elems = map(fmts) do f
+        (color, marker) = style(panel, f)
+        [LineElement(; color, linewidth = 2), MarkerElement(; color, marker, markersize = 8)]
+    end
     refs = [LineElement(; color = INK2, linestyle = :dash), LineElement(; color = INK2, linestyle = :dot)]
     cache = backend == "gpu" ? "L2" : "L3"
     Legend(fig[2, 3], [elems; refs],
@@ -89,11 +102,10 @@ function figure(df, meta, op, backend)
     return fig
 end
 
-# Markdown table: useful GB/s per format at each family's largest size, plus speedup of
-# the EllSparse layout over the best non-EllSparse format.
-function table(df, op, backend)
+# Markdown table: useful GB/s per format at each family's largest size.
+function table(df, op, formats)
     sub = df[op.pick(df), :]
-    fmts = filter(in(Set(sub.format)), ORDER)
+    fmts = filter(in(Set(sub.format)), formats)
     fams = filter(in(Set(sub.family)), FAMILY_ORDER)
     io = IOBuffer()
     println(io, "| Matrix (rows) | ", join(fmts, " | "), " |")
@@ -122,12 +134,17 @@ foreach(("cpu", "gpu")) do backend
     isnothing(loaded) && return println("no $backend results, skipping")
     (df, meta) = loaded
     println("\n## $backend — $(meta.device), triad $(round(meta.triad_gbs; digits = 1)) GB/s\n")
+    panels = filter(p -> p.backend == backend, PANELS)
     foreach(OPS) do op
         any(op.pick(df)) || return
-        path = joinpath(ASSETS, "bench_$(backend)_$(op.file).svg")
-        save(path, figure(df, meta, op, backend))
-        println("### $(op.title)  → $(relpath(path, joinpath(@__DIR__, "..")))\n")
-        println(table(df, op, backend))
+        println("### $(op.title)\n")
+        foreach(panels) do panel
+            name = join(filter(!isempty, ["bench", backend, op.file, panel.key]), "_")
+            path = joinpath(ASSETS, "$name.svg")
+            save(path, figure(df, meta, op, panel))
+            println("→ $(relpath(path, joinpath(@__DIR__, "..")))\n")
+            println(table(df, op, panel.formats))
+        end
     end
     println("adjoint repeatability (20 runs, bitwise):")
     show(stdout, determinism(df); summary = false, eltypes = false)

@@ -1,6 +1,10 @@
 #=
-CPU format sweep: EllSparse SELL-1 / SELL-32 vs stdlib CSC, a threaded CSR loop,
-MKL sparse, and dense BLAS, over matrix size × family × operation. Not run in CI.
+CPU sweep: EllSparse vs the sparse-matrix options a Julia user can install today, over
+matrix size × family × operation. Not run in CI.
+
+Every package is called the way its own documentation shows. Operations a package has
+no specialized method for are skipped rather than timed through LinearAlgebra's generic
+dense fallback (which is O(m·n) and would not finish at these sizes).
 
 Run from the repo root (one thread per physical core):
 
@@ -21,18 +25,31 @@ if MKL
     using MKLSparse
 end
 
+using CompressedSparseBlocks
 using EllSparse
+using GenericSparseArrays
+using KernelAbstractions: KernelAbstractions
 using SparseMatricesCSR
+using SuiteSparseGraphBLAS
+using ThreadedSparseArrays
 
 include("sweep_common.jl")
 
 BLAS.set_num_threads(Threads.nthreads())
+SuiteSparseGraphBLAS.gbset(:nthreads, Threads.nthreads())
+CompressedSparseBlocks.setWorkers(Threads.nthreads())
+
+# Guard against type piracy: no package loaded above may take over stdlib CSC's mul!
+# (MKLSparse does, which is why it gets its own process).
+let owner = which(mul!, Tuple{Vector{Float64}, SparseMatrixCSC{Float64, Int32}, Vector{Float64}, Bool, Bool}).module
+    MKL || owner ∈ (LinearAlgebra, SparseArrays) || error("SparseMatrixCSC mul! is owned by $owner")
+end
 
 const MAX_NNZ = parse(Float64, get(ENV, "BENCH_MAX_NNZ", "1.2e8"))
 const DENSE_MAX = 10_000      # dense BLAS only up to this many rows
 const SERIAL_CUTOFF = 4096    # same serial/threaded switch EllSparse uses
 
-# ── Threaded CSR: the plain row-parallel loop, as a fair multithreaded CSR baseline ──
+# ── Reference: a hand-written row-parallel CSR loop (not a package) ──────────────────
 
 struct ThreadedCSR{T, M <: SparseMatrixCSR} <: AbstractMatrix{T}
     A::M
@@ -83,23 +100,57 @@ LinearAlgebra.mul!(Y::AbstractMatrix, T::ThreadedCSR, X::AbstractMatrix) = _csr_
 
 # ── Formats ──────────────────────────────────────────────────────────────────────
 #
-# Each entry is (name, matrix, supports_adjoint). The adjoint of a CSR matrix is a scatter
-# (each row adds into many outputs), which a threaded loop can only do with atomics or
-# per-thread buffers, so threaded CSR skips it rather than fall back to serial.
+# Each format is a name, a figure group, and one closure per operation (`nothing` where
+# the package has no specialized method). Groups: "julia" for pure-Julia packages,
+# "libs" for wrapped C/vendor libraries and the two references.
+
+fmt(name, group; fwd, adj = nothing, spmm = nothing) = (; name, group, fwd, adj, spmm)
+
+const KA_CPU = KernelAbstractions.CPU()
+kasync(f) = (f(); KernelAbstractions.synchronize(KA_CPU))   # GenericSparseArrays' mul! doesn't sync
 
 function formats(S)
-    # MKLSparse.jl routes mul! on SparseMatrixCSC (and its transpose) to MKL; its own CSR
-    # type is internal. transpose(CSC of Sᵀ) is S in CSR storage, which MKL applies as a
-    # row-parallel gather — MKL's fast orientation, the same one SELL uses.
-    MKL && return [("MKL CSR", transpose(sparse(transpose(S))), true)]
-    A1 = sell(S)
+    # MKLSparse.jl routes mul! on SparseMatrixCSC (and its transpose) to MKL. transpose(CSC
+    # of Sᵀ) is S in CSR storage, which MKL applies as a row-parallel gather.
+    if MKL
+        M = transpose(sparse(transpose(S)))
+        return [fmt("MKLSparse", "libs"; fwd = (y, x) -> mul!(y, M, x),
+            adj = (z, v) -> mul!(z, M', v), spmm = (Y, X) -> mul!(Y, M, X))]
+    end
+    A = sell(S)
+    C = csr(S)
+    R = ThreadedCSR(C)
+    # ThreadedSparseArrays threads A'x and A*X (over columns); its README's route to a
+    # threaded forward product is to store Sᵀ and apply its adjoint
+    T = ThreadedSparseMatrixCSC(S)
+    Tt = ThreadedSparseMatrixCSC(sparse(transpose(S)))
+    Gr = GenericSparseMatrixCSR(S)
+    Gc = GenericSparseMatrixCSC(S)
+    B = GBMatrix(S)
+    Cb = SparseMatrixCSB(SparseMatrixCSC{Float64, UInt32}(S))   # CSB takes UInt32 or Int64
     fs = Any[
-        ("SELL-1", A1, true),
-        ("SELL-32", reslice(A1, Val(32)), true),
-        ("CSC (stdlib)", S, true),
-        ("CSR (threaded)", ThreadedCSR(csr(S)), false),
+        fmt("EllSparse", "both"; fwd = (y, x) -> mul!(y, A, x), adj = (z, v) -> mul!(z, A', v),
+            spmm = (Y, X) -> mul!(Y, A, X)),
+        fmt("SparseArrays CSC", "both"; fwd = (y, x) -> mul!(y, S, x), adj = (z, v) -> mul!(z, S', v),
+            spmm = (Y, X) -> mul!(Y, S, X)),
+        fmt("SparseMatricesCSR", "julia"; fwd = (y, x) -> mul!(y, C, x)),
+        fmt("ThreadedSparseArrays", "julia"; fwd = (y, x) -> mul!(y, Tt', x),
+            adj = (z, v) -> mul!(z, T', v), spmm = (Y, X) -> mul!(Y, T, X)),
+        fmt("GenericSparseArrays CSR", "julia"; fwd = (y, x) -> kasync(() -> mul!(y, Gr, x)),
+            adj = (z, v) -> kasync(() -> mul!(z, Gr', v)), spmm = (Y, X) -> kasync(() -> mul!(Y, Gr, X))),
+        fmt("GenericSparseArrays CSC", "julia"; fwd = (y, x) -> kasync(() -> mul!(y, Gc, x)),
+            adj = (z, v) -> kasync(() -> mul!(z, Gc', v)), spmm = (Y, X) -> kasync(() -> mul!(Y, Gc, X))),
+        fmt("SuiteSparseGraphBLAS", "libs"; fwd = (y, x) -> mul!(y, B, x), adj = (z, v) -> mul!(z, B', v),
+            spmm = (Y, X) -> mul!(Y, B, X)),
+        fmt("CompressedSparseBlocks", "libs"; fwd = (y, x) -> mul!(y, Cb, x), adj = (z, v) -> mul!(z, Cb', v),
+            spmm = (Y, X) -> mul!(Y, Cb, X)),
+        fmt("CSR loop (reference)", "libs"; fwd = (y, x) -> mul!(y, R, x), spmm = (Y, X) -> mul!(Y, R, X)),
     ]
-    size(S, 1) ≤ DENSE_MAX && push!(fs, ("dense BLAS", Matrix(S), true))
+    if size(S, 1) ≤ DENSE_MAX
+        D = Matrix(S)
+        push!(fs, fmt("dense BLAS", "libs"; fwd = (y, x) -> mul!(y, D, x), adj = (z, v) -> mul!(z, D', v),
+            spmm = (Y, X) -> mul!(Y, D, X)))
+    end
     return fs
 end
 
@@ -110,7 +161,7 @@ const DEVICE = Sys.cpu_info()[1].model
 const BASE = (; backend = "cpu", device = DEVICE, threads = Threads.nthreads())
 
 println("device: $DEVICE   threads: $(Threads.nthreads())   BLAS: $(BLAS.get_config().loaded_libs[1].libname)")
-println(MKL ? "formats: MKL CSR via MKLSparse.jl" : "formats: SELL-1, SELL-32, CSC, threaded CSR, dense ≤ $DENSE_MAX rows", "\n")
+println(MKL ? "formats: MKLSparse.jl" : "formats: EllSparse + Julia ecosystem; dense ≤ $DENSE_MAX rows", "\n")
 
 # Threaded triad over 3 × 512 MB arrays, far past the last-level cache
 function triad_threaded(N = 2^26)
@@ -140,31 +191,30 @@ for (fam, Ntarget) in sweep_cases(MAX_NNZ)
     Xrefs = map(X -> reduce(hcat, map(c -> ref_mul(S, X[:, c]), axes(X, 2))), Xs)
 
     rows = []
-    for (name, A, adj) in formats(S)
+    record!(r) = (push!(rows, r); report(r))
+    for f in formats(S)
+        meta_f = (; meta..., format = f.name, group = f.group)
         y, z = zeros(m), zeros(n)
         calls = MKL ? MKLSparse.__mklsparse_calls_count[] : 0
-        mul!(y, A, x)
+        f.fwd(y, x)
         MKL && (MKLSparse.__mklsparse_calls_count[] > calls || error("mul! did not reach MKL"))
-        relerr(y, yref) < 1.0e-12 || error("$name A*x mismatch: $(relerr(y, yref))")
-        push!(rows, row(; meta..., op = "spmv", format = name, useful_bytes = useful_bytes(S),
-            time_s = timeit(() -> mul!(y, A, x))))
-        report(rows[end])
+        relerr(y, yref) < 1.0e-12 || error("$(f.name) A*x mismatch: $(relerr(y, yref))")
+        record!(row(; meta_f..., op = "spmv", useful_bytes = useful_bytes(S), time_s = timeit(() -> f.fwd(y, x))))
 
-        if adj
-            mul!(z, A', v)
-            relerr(z, zref) < 1.0e-12 || error("$name A'x mismatch: $(relerr(z, zref))")
-            push!(rows, row(; meta..., op = "spmv_adj", format = name, useful_bytes = useful_bytes(S),
-                time_s = timeit(() -> mul!(z, A', v)), deterministic = repeatable(() -> mul!(z, A', v), z)))
-            report(rows[end])
+        if !isnothing(f.adj)
+            f.adj(z, v)
+            relerr(z, zref) < 1.0e-12 || error("$(f.name) A'x mismatch: $(relerr(z, zref))")
+            record!(row(; meta_f..., op = "spmv_adj", useful_bytes = useful_bytes(S),
+                time_s = timeit(() -> f.adj(z, v)), deterministic = repeatable(() -> f.adj(z, v), z)))
         end
 
+        isnothing(f.spmm) && continue
         foreach(zip(NRHS, Xs, Xrefs)) do (r, X, Xref)
             Y = zeros(m, r)
-            mul!(Y, A, X)
-            relerr(Y, Xref) < 1.0e-12 || error("$name A*X (r = $r) mismatch: $(relerr(Y, Xref))")
-            push!(rows, row(; meta..., op = "spmm", format = name, nrhs = r, useful_bytes = useful_bytes(S, r),
-                time_s = timeit(() -> mul!(Y, A, X))))
-            report(rows[end])
+            f.spmm(Y, X)
+            relerr(Y, Xref) < 1.0e-12 || error("$(f.name) A*X (r = $r) mismatch: $(relerr(Y, Xref))")
+            record!(row(; meta_f..., op = "spmm", nrhs = r, useful_bytes = useful_bytes(S, r),
+                time_s = timeit(() -> f.spmm(Y, X))))
         end
     end
     emit!(NAME, rows, fresh)
