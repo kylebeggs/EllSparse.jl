@@ -1,0 +1,2 @@
+device,threads,triad_gbs,llc_bytes,julia,cusparse
+NVIDIA RTX 4000 Ada Generation,0,308.3219341008714,41943040,1.13.3,12.8.6

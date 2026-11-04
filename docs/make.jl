@@ -17,6 +17,7 @@ makedocs(;
     ),
     pages = [
         "Home" => "index.md",
+        "Benchmarks" => "benchmarks.md",
         "cuSPARSE" => "cusparse.md",
         "API" => "api.md",
     ],
