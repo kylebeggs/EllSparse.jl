@@ -11,7 +11,7 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
 Adapt = "4"
-JLArrays = "0.2, 0.3"
+JLArrays = "0.2, 0.3, 0.4"
 KernelAbstractions = "0.9.34, 0.10"
 LinearAlgebra = "1"
 Random = "1"

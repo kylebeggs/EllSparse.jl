@@ -5,3 +5,7 @@ EllSparse = "7fd3446d-9b51-4acc-9242-0bc8c7556f41"
 
 [sources]
 EllSparse = {path = ".."}
+
+[compat]
+Documenter = "1.19.0"
+DocumenterVitepress = "0.3.9"
